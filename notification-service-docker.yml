@@ -1,0 +1,72 @@
+# ===   APPLICATION CONFIGURATION     ===
+spring:
+  application:
+    name: ${NOTIFICATION_SERVICE_NAME}
+
+  kafka:
+    bootstrap-servers: kafka:29092
+    template:
+      default-topic: notificationTopic
+    consumer:
+      group-id: notificationId
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            type:
+              mapping: event:com.arseniolourenco.notification_service.OrderPlacedEvent
+            trusted:
+              packages: "*"
+            fail-on-unknown-properties: false
+
+server:
+  port: ${NOTIFICATION_SERVICE_PORT}
+
+# ===   EUREKA CLIENT CONFIGURATION   ===
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+    register-with-eureka: true
+    fetch-registry: true
+    enabled: true
+    healthcheck:
+      enabled: true
+  instance:
+    hostname: ${NOTIFICATION_SERVICE_INSTANCE_HOSTNAME}
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+
+# ===   TRACING / ZIPKIN   ===
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+    zipkin:
+      tracing:
+        endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
+
+# ===   Logging Configuration     ===
+logging:
+  level:
+    root: INFO
+    com.netflix.eureka: DEBUG
+    com.netflix.discovery: DEBUG
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
+  pattern:
+    level: "%5p [${spring.application.name:}, %X{traceId:-}, %X{spanId:-}]"
