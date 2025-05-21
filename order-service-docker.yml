@@ -1,0 +1,108 @@
+# ===   APPLICATION CONFIGURATION     ===
+spring:
+  application:
+    name: ${ORDER_SERVICE_NAME}
+
+  datasource:
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME_POSTGRES}
+    url: ${SPRING_DATASOURCE_URL_POSTGGRES}
+    username: ${SPRING_DATASOURCE_USERNAME_POSTGRES}
+    password: ${SPRING_DATASOURCE_PASSWORD_POSTGRES}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO_POSTGRES}
+    database-platform: ${SPRING_JPA_DATABASE_PLATFORM_POSTGRES}
+    # Optional additional settings
+    # show-sql: true
+    # properties:
+    #   hibernate:
+    #     format_sql: true
+
+  kafka:
+    bootstrap-servers: kafka:29092
+    template:
+      default-topic: notificationTopic
+    producer:
+      group-id: notificationId
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            type:
+              mapping: event:com.arseniolourenco.order_service.event.OrderPlacedEvent
+
+server:
+  port: ${ORDER_SERVICE_PORT}
+
+# ===   EUREKA CLIENT CONFIGURATION   ===
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+    register-with-eureka: true
+    fetch-registry: true
+    enabled: true
+    healthcheck:
+      enabled: true
+  instance:
+    hostname: ${INVENTORY_SERVICE_INSTANCE_HOSTNAME}
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+
+# ===   TRACING / ZIPKIN   ===
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+    zipkin:
+      tracing:
+        endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
+  health:
+    circuit-breakers:
+      enabled: true
+
+# ===   RESILIENCE4J CONFIGURATION    ===
+resilience4j:
+  circuit-breaker:
+    instances:
+      inventory:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
+  time-limiter:
+    instances:
+      inventory:
+        timeout-duration: 2s
+        cancel-running-future: true
+
+  retry:
+    instances:
+      inventory:
+        max-attempts: 3
+        wait-duration: 5s
+
+# ===   LOGGING  ===
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:}, %X{traceId:-}, %X{spanId:-}]"
