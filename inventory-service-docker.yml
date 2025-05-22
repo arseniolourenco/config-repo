@@ -20,7 +20,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_SERVER_URL}
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
     register-with-eureka: true
     fetch-registry: true
     enabled: true
