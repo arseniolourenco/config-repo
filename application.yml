@@ -1,68 +1,68 @@
-message: Config Server
-
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
-    registerWithEureka: true
-    fetchRegistry: true
-    enabled: true
-    healthcheck:
-      enabled: true
-  instance:
-    hostname: ${spring.application.name}
-    instance-id: ${spring.application.name}:${server.port}
-    prefer-ip-address: true
-
-management:
-  tracing:
-    enabled: true
-    sampling:
-      probability: 1.0
-  zipkin:
-    tracing:
-      endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
-  metrics:
-    distribution:
-      percentiles-histogram:
-        http:
-          server:
-            requests: true
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      probes:
-        enabled: true
-      show-details: always
-  health:
-    livenessstate:
-      enabled: true
-    readinessstate:
-      enabled: true
-
-spring:
- cloud:
-   gateway:
-     discovery:
-       locator:
-         enabled: true
-     httpclient:
-       connect-timeout: 10000
-       response-timeout: 10s
- devtools:
-   livereload:
-     enabled: true
- config:
-   server:
-     git:
-       uri: https://github.com/arseniolourenco/config-repo.git
-       default-label: main
-       username: ${GIT_USERNAME}
-       password: ${GIT_KEY}
-
-logging:
-  pattern:
-    level: "%5p [${spring.application.name:}, %X{traceId:-}, %X{spanId:-}]"
+#message: Config Server
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
+#    registerWithEureka: true
+#    fetchRegistry: true
+#    enabled: true
+#    healthcheck:
+#      enabled: true
+#  instance:
+#    hostname: ${spring.application.name}
+#    instance-id: ${spring.application.name}:${server.port}
+#    prefer-ip-address: true
+#
+#management:
+#  tracing:
+#    enabled: true
+#    sampling:
+#      probability: 1.0
+#  zipkin:
+#    tracing:
+#      endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
+#  metrics:
+#    distribution:
+#      percentiles-histogram:
+#        http:
+#          server:
+#            requests: true
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#  endpoint:
+#    health:
+#      probes:
+#        enabled: true
+#      show-details: always
+#  health:
+#    livenessstate:
+#      enabled: true
+#    readinessstate:
+#      enabled: true
+#
+#spring:
+# cloud:
+#   gateway:
+#     discovery:
+#       locator:
+#         enabled: true
+#     httpclient:
+#       connect-timeout: 10000
+#       response-timeout: 10s
+# devtools:
+#   livereload:
+#     enabled: true
+# config:
+#   server:
+#     git:
+#       uri: https://github.com/arseniolourenco/config-repo.git
+#       default-label: main
+#       username: ${GIT_USERNAME}
+#       password: ${GIT_KEY}
+#
+#logging:
+#  pattern:
+#    level: "%5p [${spring.application.name:}, %X{traceId:-}, %X{spanId:-}]"
