@@ -1,56 +1,56 @@
-spring:
-  application:
-    name: inventory-service
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SPRING_DATASOURCE_URL_MYSQL}
-    username: ${SPRING_DATASOURCE_USERNAME_MYSQL}
-    password: ${SPRING_DATASOURCE_PASSWORD_MYSQL}
-  jpa:
-    hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO_MYSQL}
-    open-in-view: false
-
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
-    register-with-eureka: true
-    fetch-registry: true
-    enabled: true
-    healthcheck:
-      enabled: true
-  instance:
-    hostname: ${spring.application.name}
-    instance-id: ${spring.application.name}:${server.port}
-    prefer-ip-address: true
-
-inventory:
-  base-path: api/inventory
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-    health:
-      show-details: always
-  tracing:
-    enabled: true
-    sampling:
-      probability: 1.0
-  zipkin:
-    tracing:
-      endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
-  metrics:
-    distribution:
-      percentiles-histogram:
-        http.server.requests: true
-
-logging:
-  level:
-    root: INFO
-    com.netflix.eureka: DEBUG
-    com.netflix.discovery: DEBUG
-    org.springframework.cloud.gateway: TRACE
-    io.micrometer.tracing: DEBUG
+#spring:
+#  application:
+#    name: inventory-service
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: ${SPRING_DATASOURCE_URL_MYSQL}
+#    username: ${SPRING_DATASOURCE_USERNAME_MYSQL}
+#    password: ${SPRING_DATASOURCE_PASSWORD_MYSQL}
+#  jpa:
+#    hibernate:
+#      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO_MYSQL}
+#    open-in-view: false
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
+#    register-with-eureka: true
+#    fetch-registry: true
+#    enabled: true
+#    healthcheck:
+#      enabled: true
+#  instance:
+#    hostname: ${spring.application.name}
+#    instance-id: ${spring.application.name}:${server.port}
+#    prefer-ip-address: true
+#
+#inventory:
+#  base-path: api/inventory
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#    health:
+#      show-details: always
+#  tracing:
+#    enabled: true
+#    sampling:
+#      probability: 1.0
+#  zipkin:
+#    tracing:
+#      endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
+#  metrics:
+#    distribution:
+#      percentiles-histogram:
+#        http.server.requests: true
+#
+#logging:
+#  level:
+#    root: INFO
+#    com.netflix.eureka: DEBUG
+#    com.netflix.discovery: DEBUG
+#    org.springframework.cloud.gateway: TRACE
+#    io.micrometer.tracing: DEBUG
