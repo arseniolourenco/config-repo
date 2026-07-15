@@ -1,0 +1,78 @@
+#spring:
+#  application:
+#    name: discovery-server
+#server:
+#  port: 8761
+#
+#eureka:
+#  client:
+#    register-with-eureka: false
+#    fetch-registry: false
+#  instance:
+#    hostname: ${spring.application.name}
+#
+#logging:
+#  level:
+#    root: INFO
+#    com.netflix.eureka: DEBUG
+#    com.netflix.discovery: DEBUG
+
+spring:
+  application:
+    name: discovery-server
+
+server:
+  port: 8761
+
+eureka:
+  username: ${EUREKA_USERNAME}
+  password: ${EUREKA_PASSWORD}
+
+  instance:
+    hostname: ${EUREKA_SERVER_INSTANCE_HOSTNAME}
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 15
+
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    enabled: true
+    healthcheck:
+      enabled: true
+
+  server:
+    wait-time-in-ms-when-sync-empty: 500
+    response-cache-update-interval-ms: 500
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 10000
+
+# management:
+#   tracing:
+#     enabled: true
+#     sampling:
+#       probability: 1.0
+#
+#   zipkin:
+#     tracing:
+#       endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
+#
+#   metrics:
+#     distribution:
+#       percentiles-histogram:
+#         http:
+#           server:
+#             requests: true
+#
+#   endpoints:
+#     web:
+#       exposure:
+#         include: "*"
+#
+#   endpoint:
+#     health:
+#       show-details: always
+
+# logging:
+#   pattern:
+#     level: "%5p [${spring.application.name:}, %X{traceId:-}, %X{spanId:-}]"

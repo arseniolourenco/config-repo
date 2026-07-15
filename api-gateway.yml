@@ -1,185 +1,3 @@
-## =========================================================
-## APPLICATION
-## =========================================================
-#spring:
-#  application:
-#    name: ${API_GATEWAY_NAME:api-gateway}
-#
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI}
-#          jwk-set-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI}
-#
-#  cloud:
-#    gateway:
-#
-#      # =====================================================
-#      # OBSERVABILITY
-#      # =====================================================
-#      observability:
-#        enabled: true
-#
-#      # =====================================================
-#      # DISCOVERY LOCATOR
-#      # =====================================================
-#      discovery:
-#        locator:
-#          enabled: true
-#          lower-case-service-id: true
-#
-#      # =====================================================
-#      # ROUTES
-#      # =====================================================
-#      routes:
-#
-#        # ===================================================
-#        # USER SERVICE
-#        # ===================================================
-#        - id: user-service
-#          uri: lb://USER-SERVICE
-#          predicates:
-#            - Path=/api/user/**s
-#
-#        # ===================================================
-#        # EUREKA DASHBOARD
-#        # ===================================================
-#        - id: discovery-server-web
-#          uri: http://discovery-server:8761
-#          predicates:
-#            - Path=/eureka/web/**
-#          filters:
-#            - SetPath=/
-#
-#        # ===================================================
-#        # EUREKA STATIC RESOURCES
-#        # ===================================================
-#        - id: discovery-server-static
-#          uri: http://discovery-server:8761
-#          predicates:
-#            - Path=/eureka/**
-#
-#        # ===================================================
-#        # ORDER SERVICE
-#        # ===================================================
-#        - id: order-service
-#          uri: lb://ORDER-SERVICE
-#          predicates:
-#            - Path=/api/orders/**
-#
-#        # ===================================================
-#        # PRODUCT SERVICE
-#        # ===================================================
-#        - id: product-service
-#          uri: lb://PRODUCT-SERVICE
-#          predicates:
-#            - Path=/api/products/**
-#
-#        # ===================================================
-#        # INVENTORY SERVICE
-#        # ===================================================
-#        - id: inventory-service
-#          uri: lb://INVENTORY-SERVICE
-#          predicates:
-#            - Path=/api/inventory/**
-#
-#server:
-#  port: ${API_GATEWAY_PORT:8080}
-#
-## =========================================================
-## EUREKA CLIENT
-## =========================================================
-#eureka:
-#  client:
-#    enabled: true
-#    register-with-eureka: true
-#    fetch-registry: true
-#    healthcheck:
-#      enabled: true
-#
-#    service-url:
-#      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
-#
-#  instance:
-#    hostname: ${API_GATEWAY_INSTANCE_HOSTNAME}
-#    instance-id: ${spring.application.name}:${server.port}
-#    prefer-ip-address: true
-#
-## =========================================================
-## ACTUATOR / OBSERVABILITY
-## =========================================================
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: "*"
-#
-#  endpoint:
-#    health:
-#      show-details: always
-#
-#  tracing:
-#    enabled: true
-#    sampling:
-#      probability: 1.0
-#
-#  zipkin:
-#    tracing:
-#      endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
-#
-#  metrics:
-#    distribution:
-#      percentiles-histogram:
-#        http:
-#          server:
-#            requests: true
-#
-## =========================================================
-## SWAGGER / OPENAPI
-## =========================================================
-#springdoc:
-#  api-docs:
-#    enabled: true
-#
-#  swagger-ui:
-#    enabled: true
-#    path: /swagger-ui.html
-#
-#    urls:
-#      - name: order-service
-#        url: /order-service/v3/api-docs
-#
-#      - name: product-service
-#        url: /product-service/v3/api-docs
-#
-#      - name: inventory-service
-#        url: /inventory-service/v3/api-docs
-#
-## =========================================================
-## LOGGING
-## =========================================================
-#logging:
-#  level:
-#    root: INFO
-#
-#    com.netflix.eureka: INFO
-#    com.netflix.discovery: INFO
-#
-#    org.springframework.security: INFO
-#
-#    org.springframework.cloud.gateway: INFO
-#    org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
-#
-#    io.micrometer.tracing: INFO
-#    brave: INFO
-#
-#  pattern:
-#    level: "%5p [${spring.application.name}, %X{traceId:-}, %X{spanId:-}]"
-
-server:
-  port: ${API_GATEWAY_PORT:8080}
-
 spring:
   application:
     name: ${API_GATEWAY_NAME:api-gateway}
@@ -189,17 +7,22 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI}
+          jwk-set-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI}
 
   cloud:
     gateway:
       observability:
         enabled: true
 
-      routes:
+      # discovery:
+      #   locator:
+      #     enabled: true
+      #     lower-case-service-id: true
 
-        # ==========================================================
-        # EUREKA DASHBOARD
-        # ==========================================================
+      routes:
+        # =============================
+        # Eureka Dashboard
+        # =============================
         - id: discovery-server-web
           uri: http://discovery-server:8761
           predicates:
@@ -207,60 +30,63 @@ spring:
           filters:
             - SetPath=/
 
+        # =============================
+        # Eureka Static Resources
+        # =============================
         - id: discovery-server-static
           uri: http://discovery-server:8761
           predicates:
             - Path=/eureka/**
 
-        # ==========================================================
-        # USER SERVICE
-        # ==========================================================
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/api/users/**
-
-        # ==========================================================
-        # PRODUCT SERVICE
-        # ==========================================================
-        - id: product-service
-          uri: lb://PRODUCT-SERVICE
-          predicates:
-            - Path=/api/products/**
-
-        # ==========================================================
+        # =============================
         # ORDER SERVICE
-        # ==========================================================
+        # =============================
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/api/orders/**
 
-        # ==========================================================
+        # =============================
+        # PRODUCT SERVICE
+        # =============================
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/products/**
+
+        # =============================
         # INVENTORY SERVICE
-        # ==========================================================
+        # =============================
         - id: inventory-service
           uri: lb://INVENTORY-SERVICE
           predicates:
             - Path=/api/inventory/**
 
-        # ==========================================================
-        # NOTIFICATION SERVICE
-        # ==========================================================
-        - id: notification-service
-          uri: lb://NOTIFICATION-SERVICE
-          predicates:
-            - Path=/api/notifications/**
-
-        # ==========================================================
-        # SWAGGER ROUTES
-        # ==========================================================
-        - id: user-service-docs
+        # =============================
+        # USER SERVICE
+        # =============================
+        - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/user-service/v3/api-docs
+            - Path=/api/users/**
+
+        # =============================
+        # AUTH SERVICE
+        # =============================
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/auth/**
+
+        # =============================
+        # SWAGGER ROUTES
+        # =============================
+        - id: order-service-docs
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/v3/api-docs
           filters:
-            - RewritePath=/user-service/(?<path>.*), /${path}
+            - RewritePath=/order-service/(?<path>.*), /${path}
 
         - id: product-service-docs
           uri: lb://PRODUCT-SERVICE
@@ -269,13 +95,6 @@ spring:
           filters:
             - RewritePath=/product-service/(?<path>.*), /${path}
 
-        - id: order-service-docs
-          uri: lb://ORDER-SERVICE
-          predicates:
-            - Path=/order-service/v3/api-docs
-          filters:
-            - RewritePath=/order-service/(?<path>.*), /${path}
-
         - id: inventory-service-docs
           uri: lb://INVENTORY-SERVICE
           predicates:
@@ -283,24 +102,32 @@ spring:
           filters:
             - RewritePath=/inventory-service/(?<path>.*), /${path}
 
-        - id: notification-service-docs
-          uri: lb://NOTIFICATION-SERVICE
+        - id: user-service-docs
+          uri: lb://USER-SERVICE
           predicates:
-            - Path=/notification-service/v3/api-docs
+            - Path=/user-service/v3/api-docs
           filters:
-            - RewritePath=/notification-service/(?<path>.*), /${path}
+            - RewritePath=/user-service/(?<path>.*), /${path}
+
+        - id: auth-service-docs
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth-service/v3/api-docs
+          filters:
+            - RewritePath=/auth-service/(?<path>.*), /${path}
+
+server:
+  port: ${API_GATEWAY_PORT:8080}
 
 eureka:
   client:
     enabled: true
     register-with-eureka: true
     fetch-registry: true
-
-    healthcheck:
-      enabled: true
-
     service-url:
       defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
+    healthcheck:
+      enabled: true
 
   instance:
     hostname: ${API_GATEWAY_INSTANCE_HOSTNAME}
@@ -336,15 +163,11 @@ management:
 logging:
   level:
     root: INFO
-
     com.netflix.eureka: INFO
     com.netflix.discovery: INFO
-
     org.springframework.security: INFO
-
     org.springframework.cloud.gateway: INFO
     org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
-
     io.micrometer.tracing: INFO
     brave: INFO
 
@@ -358,19 +181,14 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
-
     urls:
-      - name: User Service
-        url: /user-service/v3/api-docs
-
-      - name: Product Service
-        url: /product-service/v3/api-docs
-
-      - name: Order Service
+      - name: order-service
         url: /order-service/v3/api-docs
-
-      - name: Inventory Service
+      - name: product-service
+        url: /product-service/v3/api-docs
+      - name: inventory-service
         url: /inventory-service/v3/api-docs
-
-      - name: Notification Service
-        url: /notification-service/v3/api-docs
+      - name: user-service
+        url: /user-service/v3/api-docs
+      - name: auth-service
+        url: /auth-service/v3/api-docs
