@@ -6,7 +6,7 @@ spring:
     bootstrap-servers: kafka:29092
 
     template:
-      default-topic: notificationTopic
+      default-topic: order-events
 
     consumer:
       group-id: notificationId
