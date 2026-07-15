@@ -8,7 +8,7 @@ message: Config Server
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
+      defaultZone: http://eureka:eureka@discovery-server:8761/eureka
     register-with-eureka: true
     fetch-registry: true
     enabled: true
@@ -28,7 +28,7 @@ management:
 
   zipkin:
     tracing:
-      endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
+      endpoint: http://zipkin:9411/api/v2/spans
 
   metrics:
     distribution:

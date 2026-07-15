@@ -1,60 +1,16 @@
 spring:
   application:
-    name: ${PRODUCT_SERVICE_NAME:product-service}
+    name: product-service
 
   data:
     mongodb:
-      host: ${MONGODB_HOST}
-      port: ${MONGODB_PORT}
-      username: ${MONGODB_USERNAME}
-      password: ${MONGODB_PASSWORD}
-      database: ${MONGODB_DATABASE}
-      authentication-database: ${MONGODB_AUTH_DATABASE}
-      uri: ${MONGODB_URI}
+      host: mongo
+      port: 27017
+      username: ${MONGODB_USERNAME:mongoadmin}
+      password: ${MONGODB_PASSWORD:secret}
+      database: productDB
+      authentication-database: admin
+      uri: mongodb://${MONGODB_USERNAME:mongoadmin}:${MONGODB_PASSWORD:secret}@mongo:27017/productDB?authSource=admin
 
 server:
-  port: ${PRODUCT_SERVICE_PORT:8080}
-
-# eureka:
-#   client:
-#     service-url:
-#       defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
-#     register-with-eureka: true
-#     fetch-registry: true
-#     enabled: true
-#     healthcheck:
-#       enabled: true
-#   instance:
-#     hostname: ${PRODUCT_SERVICE_INSTANCE_HOSTNAME}
-#     instance-id: ${spring.application.name}:${server.port}
-#     prefer-ip-address: true
-
-# management:
-#   tracing:
-#     enabled: true
-#     sampling:
-#       probability: 1.0
-#
-#   zipkin:
-#     tracing:
-#       endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
-#
-#   metrics:
-#     distribution:
-#       percentiles-histogram:
-#         http:
-#           server:
-#             requests: true
-#
-#   endpoints:
-#     web:
-#       exposure:
-#         include: "*"
-#
-#   endpoint:
-#     health:
-#       show-details: always
-
-# logging:
-#   pattern:
-#     level: "%5p [${spring.application.name:}, %X{traceId:-}, %X{spanId:-}]"
+  port: 8080

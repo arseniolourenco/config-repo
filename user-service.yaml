@@ -1,61 +1,21 @@
 spring:
   application:
-    name: ${USER_SERVICE_NAME:user-service}
+    name: user-service
 
   datasource:
-    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME_POSTGRES:org.postgresql.Driver}
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://postgres:5432/userDB
     username: ${SPRING_DATASOURCE_USERNAME_POSTGRES:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD_POSTGRES:postgres}
 
   jpa:
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO_POSTGRES:none}
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: ${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT_POSTGRES:org.hibernate.dialect.PostgreSQLDialect}
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         # format_sql: true
     # show-sql: true
 
 server:
-  port: ${USER_SERVICE_PORT:8085}
-
-# eureka:
-#   client:
-#     service-url:
-#       defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
-#     register-with-eureka: true
-#     fetch-registry: true
-#     enabled: true
-#     healthcheck:
-#       enabled: true
-#   instance:
-#     hostname: ${ORDER_SERVICE_INSTANCE_HOSTNAME}
-#     instance-id: ${spring.application.name}:${server.port}
-#     prefer-ip-address: true
-
-management:
-  tracing:
-    enabled: true
-    sampling:
-      probability: 1.0
-
-  zipkin:
-    tracing:
-      endpoint: ${MANAGEMENT_TRACING_ZIPKIN_ENDPOINT}
-
-  metrics:
-    distribution:
-      percentiles-histogram:
-        http:
-          server:
-            requests: true
-
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-  endpoint:
-    health:
-      show-details: always
+  port: 8085

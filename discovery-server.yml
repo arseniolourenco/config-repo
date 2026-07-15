@@ -29,7 +29,7 @@ eureka:
   password: ${EUREKA_PASSWORD}
 
   instance:
-    hostname: ${EUREKA_SERVER_INSTANCE_HOSTNAME}
+    hostname: discovery-server
     instance-id: ${spring.application.name}:${server.port}
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 15
