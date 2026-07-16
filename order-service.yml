@@ -23,7 +23,7 @@ spring:
       default-topic: order-events
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       # observation-enabled: true
 
 server:
