@@ -12,12 +12,14 @@ spring:
       group-id: notificationId
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-
       properties:
         spring:
           json:
-            type:
-              mapping: event:com.arseniolourenco.notification_service.OrderPlacedEvent
+              default:
+                type: com.arseniolourenco.notification_service.OrderPlacedEvent
+            use:
+              type:
+                headers: false
             trusted:
               packages: "*"
             fail-on-unknown-properties: false
