@@ -5,8 +5,8 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://postgres:5432/orderDB
-    username: ${SPRING_DATASOURCE_USERNAME_POSTGRES:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD_POSTGRES:postgres}
+    username: postgres
+    password: postgres
 
   jpa:
     hibernate:
