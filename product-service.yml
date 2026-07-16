@@ -10,7 +10,6 @@ spring:
       password: secret
       database: productDB
       authentication-database: admin
-      uri: mongodb://mongoadmin@mongo:27017/productDB?authSource=admin
 
 server:
   port: 8080
