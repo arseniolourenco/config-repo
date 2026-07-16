@@ -5,8 +5,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mysql:3306/inventoryDB
-    username: admin
-    password: admin
+    username: root
+    password: root
 
   jpa:
     hibernate:
