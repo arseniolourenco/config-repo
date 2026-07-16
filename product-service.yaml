@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: product-service
+
+  data:
+    mongodb:
+      host: mongo
+      port: 27017
+      username: ${MONGODB_USERNAME:mongoadmin}
+      password: ${MONGODB_PASSWORD:secret}
+      database: productDB
+      authentication-database: admin
+      uri: mongodb://${MONGODB_USERNAME:mongoadmin}:${MONGODB_PASSWORD:secret}@mongo:27017/productDB?authSource=admin
+
+server:
+  port: 8080

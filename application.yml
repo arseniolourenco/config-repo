@@ -1,0 +1,73 @@
+message: Config Server
+
+# spring:
+#   devtools:
+#     livereload:
+#       enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:eureka@discovery-server:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+    enabled: true
+    healthcheck:
+      enabled: true
+
+  instance:
+    hostname: ${spring.application.name}
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+    # Se preferires expor apenas alguns endpoints:
+    # endpoints:
+    #   web:
+    #     exposure:
+    #       include: health,info,prometheus
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:}, %X{traceId:-}, %X{spanId:-}]"
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true

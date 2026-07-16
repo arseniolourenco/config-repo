@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: order-service
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgres:5432/orderDB
+    username: ${SPRING_DATASOURCE_USERNAME_POSTGRES:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD_POSTGRES:postgres}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        # format_sql: true
+    # show-sql: true
+
+  kafka:
+    bootstrap-servers: kafka:29092
+    template:
+      default-topic: order-events
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # observation-enabled: true
+
+server:
+  port: 8080
