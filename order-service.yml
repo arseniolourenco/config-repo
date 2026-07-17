@@ -42,9 +42,13 @@ resilience4j:
         permitted-number-of-calls-in-half-open-state: 3
         automatic-transition-from-open-to-half-open-enabled: true
   timelimiter:
+    configs:
+      default:
+        timeoutDuration: 10s
     instances:
       inventory:
-        timeout-duration: 10s
+        baseConfig: default
+        timeoutDuration: 10s
   retry:
     instances:
       inventory:
