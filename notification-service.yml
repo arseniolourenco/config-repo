@@ -15,6 +15,7 @@ spring:
       properties:
         spring:
           json:
+            value:
               default:
                 type: com.arseniolourenco.notification_service.OrderPlacedEvent
             use:
