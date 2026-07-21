@@ -4,3 +4,10 @@ server:
 spring:
   application:
     name: auth-service
+
+keycloak:
+  serverUrl: http://keycloak:8080
+  realm: spring-boot-microservices-realm
+  clientId: spring-cloud-client
+  clientSecret: gateway-secret
+
