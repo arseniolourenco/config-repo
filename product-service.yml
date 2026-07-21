@@ -6,9 +6,9 @@ spring:
     mongodb:
       host: mongo
       port: 27017
-      username: mongoadmin
-      password: secret
-      database: productDB
+      username: ${MONGO_INITDB_ROOT_USERNAME:mongoadmin}
+      password: ${MONGO_INITDB_ROOT_PASSWORD:secret}
+      database: ${MONGO_INITDB_DATABASE:productDB}
       authentication-database: admin
     redis:
       host: redis
