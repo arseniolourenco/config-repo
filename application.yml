@@ -37,10 +37,11 @@ management:
           server:
             requests: true
 
+  # Se preferires expor apenas alguns endpoints:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "*"    #       include: health,info,prometheus
 
   endpoint:
     health:
@@ -53,12 +54,6 @@ management:
       enabled: true
     readinessstate:
       enabled: true
-
-    # Se preferires expor apenas alguns endpoints:
-    # endpoints:
-    #   web:
-    #     exposure:
-    #       include: health,info,prometheus
 
 logging:
   pattern:
