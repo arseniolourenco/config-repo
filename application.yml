@@ -26,9 +26,9 @@ management:
     sampling:
       probability: 1.0
 
-  otlp:
+  zipkin:
     tracing:
-      endpoint: http://zipkin:9411/v1/traces
+      endpoint: http://zipkin:9411/api/v2/spans
 
   metrics:
     distribution:
